@@ -49,9 +49,6 @@ for t in 1:n
         MU[t] = mu;
         SIGMA[t] = sigma;
         mu_star = mu;
-```
-
-```julia
         sigma_star = sigma;
     else
         MU[t] = mu_star;
@@ -67,10 +64,10 @@ savefig("plot_assignment_6_q_1_a_histgram")
 
 res = fit(Histogram, MU[100000:end], nbins=50);
 mode = res.edges[1][findmax(res.weights)[2]]+res.edges[1].step/2;
-print(mode);
+print(mode);        
 ```
 
-Mode of $f_{\mu}\vert x$ is $9.7$.
+Mode of $f_{\mu} \vert x$ is $9.7$.
 
 ##### (b)
 
@@ -105,9 +102,6 @@ end
 using Distributions;
 using Plots;
 using StatsBase;
-```
-
-```julia
 x = 0.5;
 mu_star = 10;
 threshold = 1e-9;
