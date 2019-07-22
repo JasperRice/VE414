@@ -7,11 +7,18 @@ using Distributions
 using Plots
 # using PyPlot
 
+LOWER_BOUND = 0
+UPPER_BOUND = 107
+
 function UniformCircle(X, Y, R = 3)
-    θ = rand(Uniform(0, 2*pi))
-    r = rand(Uniform(0, R))
-    x = X + r * cos(θ)
-    y = Y + r * sin(θ)
+    x = -1
+    y = -1
+    while (x-LOWER_BOUND)*(x-UPPER_BOUND)>0 || (y-LOWER_BOUND)*(y-UPPER_BOUND)>0
+        θ = rand(Uniform(0, 2*pi))
+        r = rand(Uniform(0, R))
+        x = X + r * cos(θ)
+        y = Y + r * sin(θ)
+    end
     return [x, y]
 end
 
@@ -90,10 +97,14 @@ for n = 1 : size(GRANGER, 1)
 end
 ############### <END> Data collection ###############
 
-
+Plots.plot(POTTER[1].X, POTTER[1].Y, POTTER[1].Close,
+    xlim=(0,107), ylim=(0,107), zlim=(0,20),
+    title="3D Plot", seriestype=:scatter, marker=1)
+PLOTPATH = "C:\\Users\\Jasper Rice\\Desktop\\VE414\\Project\\PotterPlot"
+Plots.savefig(PLOTPATH)
 
 Plots.plot(DF.X, DF.Y, DF.Close,
-    xlim=(0,100), ylim=(0,100), zlim=(0,20),
+    xlim=(0,107), ylim=(0,107), zlim=(0,20),
     title="3D Plot", seriestype=:scatter, marker=1)
 PLOTPATH = "C:\\Users\\Jasper Rice\\Desktop\\VE414\\Project\\Plot"
 Plots.savefig(PLOTPATH)
