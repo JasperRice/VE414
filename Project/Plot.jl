@@ -32,7 +32,8 @@ for i in 1 : size(WEASLEY, 1)
 end
 ############### <END> Plot  position for each trip ###############
 
-PyPlot.scatter(GRANGER[1].X, GRANGER[1].Y, s=10*GRANGER[1].Close, alpha=0.75)
+PyPlot.clf()
+PyPlot.scatter(GRANGER[1].X, GRANGER[1].Y, s=3*pi^2*(GRANGER[1].Close > zeros(size(GRANGER, 1))), alpha=0.5)
 PyPlot.xlim(0, 107)
 PyPlot.ylim(0, 107)
 PyPlot.savefig("C:\\Users\\Jasper Rice\\Desktop\\VE414\\Project\\plot.png")
