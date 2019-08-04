@@ -1,7 +1,7 @@
 using CSV
 using DataFrames
 using Query
-FILEPATH = "C:\\Users\\Jasper Rice\\Desktop\\VE414\\Project\\Data.csv"
+FILEPATH = "Data.csv"
 DF = CSV.File(FILEPATH) |> DataFrame
 
 

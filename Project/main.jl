@@ -23,3 +23,24 @@ function test(a, b)
     b = t
     return a, b
 end
+
+a = 5
+b = 6
+for i = 1:3
+    global a, b
+    for j = 1 : 2
+        a += 1
+        b += 1
+    end
+end
+print(a, b)
+
+function name(a, b)
+    c = 20
+    for i = 1 : 5
+        a += 1
+        b += 1
+        c += 1
+    end
+    print(a," ",b, " ",c)
+end
