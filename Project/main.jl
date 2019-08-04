@@ -1,46 +1,58 @@
+using CSV
+using DataFrames
+using Plots
+
 LOWER_BOUND = 0
 UPPER_BOUND = 107
-N = 100
+MAX_ITERATION = 100000
+TREE_NUMBER = 30
 
-for i in 1 : maximum(DF.Count)
-    for j in 1 : DF.Close[i]
-        N = 1
-        for n in 1 : N
-            Fayes = UniformCircle(DF.X[i], DF.Y[i])
-            μ = [DF.X[i], DF.Y[i]]
-            Σ = [1 0; 0 1]
+FILEPATH = "data_proj_414.csv"
+DF = CSV.File(FILEPATH) |> DataFrame
+N = size(DF, 1)
+
+X = zeros(0)
+Y = zeros(0)
+Close = Array{Int64}(undef, 0)
+for i = 1 : size(DF, 1)
+    for n in 1 : DF.Close[i]
+        x, y = UniformCircle(DF.X[i], DF.Y[i])
+        append!(X, x)
+        append!(Y, y)
+    end
+end
+
+Tayes = Array(transpose([X Y]))
+Abandon = Array{Int64}(undef, 0)
+for i in 1 : size(Tayes, 2)
+    global Tayes, Abandon
+    for j in i + 1 : TREE_NUMBER
+        if !IsDifferentTree(Tayes[:, i], Tayes[:, j])
+            append!(Abandon, i)
+            break
         end
     end
 end
+Tayes = Tayes[:, setdiff(1:end, Abandon)]
 
-Tayes # Sample points of the fruits
-K = 10 # Temp
-T = 10000 # Temp
+μ, Σ, α, score = EM_GMM(Tayes, TREE_NUMBER, MAX_ITERATION)
+println(μ)
 
-function test(a, b)
-    t = a
-    a = b
-    b = t
-    return a, b
-end
-
-a = 5
-b = 6
-for i = 1:3
-    global a, b
-    for j = 1 : 2
-        a += 1
-        b += 1
+Abandon = Array{Int64}(undef, 0)
+for k in 1 : TREE_NUMBER
+    global μ, Abandon
+    for j in k + 1 : TREE_NUMBER
+        if !IsDifferentTree(μ[:, k], μ[:, j])
+            append!(Abandon, k)
+            break
+        end
     end
 end
-print(a, b)
-
-function name(a, b)
-    c = 20
-    for i = 1 : 5
-        a += 1
-        b += 1
-        c += 1
-    end
-    print(a," ",b, " ",c)
+μ = μ[:, setdiff(1:end, Abandon)]
+for k in 1 : size(μ, 2)
+    println(μ[:, k])
 end
+
+scatter(μ[1,:], μ[2,:], xlim=(0, 107), ylim=(0,107))
+# PLOTPATH = "C:\\Users\\Jasper Rice\\Desktop\\VE414\\Project\\Plot\\Result"
+# Plots.savefig(string(PLOTPATH))
