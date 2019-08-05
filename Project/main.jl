@@ -49,10 +49,13 @@ for k in 1 : TREE_NUMBER
     end
 end
 μ = μ[:, setdiff(1:end, Abandon)]
+
+println("The number of trees: ", floor(size(μ, 2) * 3 / 2))
+println("The positions in detected area are:")
 for k in 1 : size(μ, 2)
     println(μ[:, k])
 end
 
-scatter(μ[1,:], μ[2,:], xlim=(0, 107), ylim=(0,107))
+# scatter(μ[1,:], μ[2,:], xlim=(0, 107), ylim=(0,107))
 # PLOTPATH = "C:\\Users\\Jasper Rice\\Desktop\\VE414\\Project\\Plot\\Result"
 # Plots.savefig(string(PLOTPATH))
